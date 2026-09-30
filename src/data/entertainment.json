@@ -1,0 +1,402 @@
+[
+  {
+    "category": "ゲーム",
+    "difficulty": 1,
+    "text": "マリオの発売元は？",
+    "left": "任天堂",
+    "right": "セガ",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 1,
+    "text": "ピカチュウのタイプは？",
+    "left": "でんき",
+    "right": "みず",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 1,
+    "text": "テトリスの基本形は？",
+    "left": "4ブロック",
+    "right": "5ブロック",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 1,
+    "text": "カービィの色は？",
+    "left": "ピンク",
+    "right": "緑",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 1,
+    "text": "ドラえもんは何型？",
+    "left": "ネコ型ロボット",
+    "right": "イヌ型ロボット",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 1,
+    "text": "ルフィの夢は？",
+    "left": "海賊王",
+    "right": "火影",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 1,
+    "text": "シンバは何の動物？",
+    "left": "ライオン",
+    "right": "トラ",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 1,
+    "text": "ニモは何の魚？",
+    "left": "カクレクマノミ",
+    "right": "金魚",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 1,
+    "text": "ピアノで押す部分は？",
+    "left": "鍵盤",
+    "right": "弦",
+    "answer": "left"
+  },
+  {
+    "category": "芸能",
+    "difficulty": 1,
+    "text": "漫才は何人組？",
+    "left": "2人",
+    "right": "1人",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 2,
+    "text": "マリオの弟は？",
+    "left": "ルイージ",
+    "right": "ワリオ",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 2,
+    "text": "ナルトの里は？",
+    "left": "木ノ葉隠れ",
+    "right": "砂隠れ",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 2,
+    "text": "エルサの力は？",
+    "left": "氷と雪",
+    "right": "炎と雷",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 2,
+    "text": "ジェダイの武器は？",
+    "left": "ライトセーバー",
+    "right": "魔法の杖",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 2,
+    "text": "ギターの音源は？",
+    "left": "弦",
+    "right": "鍵盤",
+    "answer": "left"
+  },
+  {
+    "category": "芸能",
+    "difficulty": 2,
+    "text": "声を担当する職業は？",
+    "left": "声優",
+    "right": "照明技師",
+    "answer": "left"
+  },
+  {
+    "category": "芸能",
+    "difficulty": 2,
+    "text": "歌舞伎の発祥国は？",
+    "left": "日本",
+    "right": "イタリア",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 2,
+    "text": "タイタニック号は何船？",
+    "left": "客船",
+    "right": "軍艦",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 2,
+    "text": "Among Usの妨害役は？",
+    "left": "インポスター",
+    "right": "クルー",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 2,
+    "text": "1オクターブは何半音？",
+    "left": "12",
+    "right": "8",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 3,
+    "text": "悟空の種族は？",
+    "left": "サイヤ人",
+    "right": "ナメック星人",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 3,
+    "text": "ハリーの魔法学校は？",
+    "left": "ホグワーツ",
+    "right": "ダームストラング",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 3,
+    "text": "カンヌ映画祭の開催地は？",
+    "left": "フランス",
+    "right": "イタリア",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 3,
+    "text": "図鑑No.001のポケモンは？",
+    "left": "フシギダネ",
+    "right": "ピカチュウ",
+    "answer": "left"
+  },
+  {
+    "category": "芸能",
+    "difficulty": 3,
+    "text": "落語を演じる人は？",
+    "left": "落語家",
+    "right": "講談師",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 3,
+    "text": "バイオリンの弓毛は？",
+    "left": "馬の毛",
+    "right": "羊の毛",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 3,
+    "text": "タイムマシンの車名は？",
+    "left": "デロリアン",
+    "right": "カマロ",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 3,
+    "text": "進撃の最外壁の名は？",
+    "left": "ウォール・マリア",
+    "right": "ウォール・ローゼ",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 3,
+    "text": "パックマンの生みの親は？",
+    "left": "岩谷徹",
+    "right": "宮本茂",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 3,
+    "text": "炭治郎の刀の色は？",
+    "left": "黒",
+    "right": "赤",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 4,
+    "text": "時オカの発売年は？",
+    "left": "1998年",
+    "right": "2000年",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 4,
+    "text": "初代ポケモンの発売年は？",
+    "left": "1996年",
+    "right": "1998年",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 4,
+    "text": "映画『ジョーズ』の監督は？",
+    "left": "スピルバーグ",
+    "right": "ルーカス",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 4,
+    "text": "鬼滅の刃の作者は？",
+    "left": "吾峠呼世晴",
+    "right": "尾田栄一郎",
+    "answer": "left"
+  },
+  {
+    "category": "芸能",
+    "difficulty": 4,
+    "text": "宝塚歌劇団の本拠地は？",
+    "left": "兵庫県宝塚市",
+    "right": "東京都新宿区",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 4,
+    "text": "バイオリンの弦は何本？",
+    "left": "4本",
+    "right": "6本",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 4,
+    "text": "標準的なピアノの鍵盤数は？",
+    "left": "88鍵",
+    "right": "76鍵",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 4,
+    "text": "スター・ウォーズ初公開年は？",
+    "left": "1977年",
+    "right": "1980年",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 4,
+    "text": "『千と千尋』の監督は？",
+    "left": "宮崎駿",
+    "right": "高畑勲",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 4,
+    "text": "ジャズ発祥の地は？",
+    "left": "ニューオーリンズ",
+    "right": "ナッシュビル",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 5,
+    "text": "マリオ初登場の作品は？",
+    "left": "ドンキーコング",
+    "right": "マリオブラザーズ",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 5,
+    "text": "リンク初登場の作品は？",
+    "left": "ゼルダの伝説",
+    "right": "リンクの冒険",
+    "answer": "left"
+  },
+  {
+    "category": "ゲーム",
+    "difficulty": 5,
+    "text": "初代御三家にいるのは？",
+    "left": "フシギダネ",
+    "right": "ピチュー",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 5,
+    "text": "コナン連載開始年は？",
+    "left": "1994年",
+    "right": "1996年",
+    "answer": "left"
+  },
+  {
+    "category": "アニメ・マンガ",
+    "difficulty": 5,
+    "text": "ONE PIECE連載年は？",
+    "left": "1997年",
+    "right": "1999年",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 5,
+    "text": "アカデミー賞初開催年は？",
+    "left": "1929年",
+    "right": "1935年",
+    "answer": "left"
+  },
+  {
+    "category": "映画",
+    "difficulty": 5,
+    "text": "タイタニック沈没年は？",
+    "left": "1912年",
+    "right": "1915年",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 5,
+    "text": "ピアノの発明者は？",
+    "left": "クリストフォリ",
+    "right": "モーツァルト",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 5,
+    "text": "ビートルズのベース担当は？",
+    "left": "ポール・マッカートニー",
+    "right": "ジョージ・ハリスン",
+    "answer": "left"
+  },
+  {
+    "category": "音楽",
+    "difficulty": 5,
+    "text": "ベートーヴェン第九初演年は？",
+    "left": "1824年",
+    "right": "1812年",
+    "answer": "left"
+  }
+]
