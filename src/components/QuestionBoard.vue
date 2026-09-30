@@ -145,4 +145,5 @@ defineProps({
     transform: translateX(-50%);
   }
 }
+
 </style>

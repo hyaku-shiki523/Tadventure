@@ -29,6 +29,10 @@ const props = defineProps({
 const emit = defineEmits(['choose'])
 
 function choose() {
+  if (props.disabled || props.hidden) {
+    return
+  }
+
   emit('choose', props.side)
 }
 </script>

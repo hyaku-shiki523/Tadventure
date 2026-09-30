@@ -78,6 +78,14 @@ function answer(choice) {
   }, 200)
 }
 
+function answerByMouseButton(event) {
+  if (event.button === 0) {
+    answer('left')
+  } else if (event.button === 2) {
+    answer('right')
+  }
+}
+
 onBeforeUnmount(() => {
   window.clearTimeout(moveTimer)
   window.clearTimeout(judgmentTimer)
@@ -86,7 +94,10 @@ onBeforeUnmount(() => {
 })
 </script>
 <template>
-  <section>
+  <section
+    @mousedown.prevent="answerByMouseButton"
+    @contextmenu.prevent
+  >
     <CountdownOverlay
       :key="`countdown-${questionIndex}`"
       :start-delay="5900"

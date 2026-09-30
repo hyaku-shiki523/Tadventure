@@ -17,7 +17,7 @@ function startGame(source) {
 </script>
 
 <template>
-  <main>
+  <main :class="{ 'game-active': screen === 'question' }">
     <video
       ref="backgroundVideo"
       class="background-video"
@@ -53,6 +53,11 @@ main {
   text-align: center;
   box-sizing: border-box;
   padding: 20px;
+}
+
+:global(main.game-active),
+:global(main.game-active *) {
+  cursor: none !important;
 }
 
 .background-video {
