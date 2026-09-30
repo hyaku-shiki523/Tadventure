@@ -54,6 +54,11 @@ body {
   margin: 0;
 }
 
+body.game-cursor-hidden,
+body.game-cursor-hidden * {
+  cursor: none !important;
+}
+
 h1,
 h2 {
   font-family: var(--heading);

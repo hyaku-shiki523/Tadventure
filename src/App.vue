@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 import TitleScreen from './components/TitleScreen.vue'
 import QuestionScreen from './components/QuestionScreen.vue'
 
@@ -10,10 +10,15 @@ const backgroundVideo = ref(null)
 function startGame(source) {
   questionSource.value = source
   screen.value = 'question'
+  document.body.classList.add('game-cursor-hidden')
   backgroundVideo.value?.play().catch((error) => {
     console.error('背景動画を再生できませんでした:', error)
   })
 }
+
+onBeforeUnmount(() => {
+  document.body.classList.remove('game-cursor-hidden')
+})
 </script>
 
 <template>
@@ -53,11 +58,6 @@ main {
   text-align: center;
   box-sizing: border-box;
   padding: 20px;
-}
-
-:global(main.game-active),
-:global(main.game-active *) {
-  cursor: none !important;
 }
 
 .background-video {
