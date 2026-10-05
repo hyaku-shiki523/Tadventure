@@ -11,7 +11,7 @@
     "text": "日本の首都は？",
     "left": "東京",
     "right": "大阪",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 1,
@@ -25,7 +25,7 @@
     "text": "水の化学式は？",
     "left": "H₂O",
     "right": "CO₂",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 1,
@@ -39,7 +39,7 @@
     "text": "一週間は何日？",
     "left": "7日",
     "right": "8日",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 1,
@@ -53,7 +53,7 @@
     "text": "春の次の季節は？",
     "left": "夏",
     "right": "秋",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 1,
@@ -67,7 +67,7 @@
     "text": "日本最大の湖は？",
     "left": "琵琶湖",
     "right": "霞ヶ浦",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 2,
@@ -81,7 +81,7 @@
     "text": "日本最大の都道府県は？",
     "left": "北海道",
     "right": "岩手県",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 2,
@@ -95,7 +95,7 @@
     "text": "水が凍る温度は？",
     "left": "0℃",
     "right": "10℃",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 2,
@@ -109,7 +109,7 @@
     "text": "人の血液型は何種類？",
     "left": "4種類",
     "right": "6種類",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 2,
@@ -123,7 +123,7 @@
     "text": "タコの足は何本？",
     "left": "8本",
     "right": "10本",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 2,
@@ -137,7 +137,7 @@
     "text": "富士山の標高は？",
     "left": "3776m",
     "right": "3333m",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 3,
@@ -151,7 +151,7 @@
     "text": "元素記号Auは？",
     "left": "金",
     "right": "銀",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 3,
@@ -165,7 +165,7 @@
     "text": "日本の都道府県数は？",
     "left": "47",
     "right": "48",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 3,
@@ -179,7 +179,7 @@
     "text": "三角形の内角の和は？",
     "left": "180度",
     "right": "360度",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 3,
@@ -193,7 +193,7 @@
     "text": "電流の単位は？",
     "left": "アンペア",
     "right": "ボルト",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 3,
@@ -207,7 +207,7 @@
     "text": "地球の表面の約7割は？",
     "left": "海",
     "right": "陸地",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 4,
@@ -221,7 +221,7 @@
     "text": "関ヶ原の戦いは何年？",
     "left": "1600年",
     "right": "1582年",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 4,
@@ -235,7 +235,7 @@
     "text": "人体最大の臓器は？",
     "left": "皮膚",
     "right": "肝臓",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 4,
@@ -249,7 +249,7 @@
     "text": "平安京遷都は何年？",
     "left": "794年",
     "right": "710年",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 4,
@@ -263,7 +263,7 @@
     "text": "三権分立の三権は？",
     "left": "立法・行政・司法",
     "right": "立法・外交・司法",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 4,
@@ -277,7 +277,7 @@
     "text": "人体で血液を送る臓器は？",
     "left": "心臓",
     "right": "肺",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 5,
@@ -291,7 +291,7 @@
     "text": "大気中で最も多い気体は？",
     "left": "窒素",
     "right": "酸素",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 5,
@@ -305,7 +305,7 @@
     "text": "日本初のノーベル賞受賞者は？",
     "left": "湯川秀樹",
     "right": "朝永振一郎",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 5,
@@ -319,7 +319,7 @@
     "text": "零戦の正式名称は？",
     "left": "零式艦上戦闘機",
     "right": "一式陸上攻撃機",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 5,
@@ -333,7 +333,7 @@
     "text": "日本国憲法の施行年は？",
     "left": "1947年",
     "right": "1946年",
-    "answer": "left"
+    "answer": "right"
   },
   {
     "difficulty": 5,
@@ -347,6 +347,6 @@
     "text": "原子番号1の元素は？",
     "left": "水素",
     "right": "ヘリウム",
-    "answer": "left"
+    "answer": "right"
   }
 ]
