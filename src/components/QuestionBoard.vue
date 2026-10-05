@@ -68,6 +68,7 @@ defineProps({
 .question-board h2 {
   position: relative;
   z-index: 10;
+  color: #ffffff;
   font-size: 100px;
   font-family: "Zen Antique", "Yuji Boku", serif;
   font-weight: 900;
