@@ -1,0 +1,57 @@
+:root {
+  font-family: Inter, "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
+  color: #e7f4e9;
+  background: #050907;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --bg: #050907;
+  --panel: rgba(9, 18, 13, 0.92);
+  --panel-light: #0d1911;
+  --green: #70ff8b;
+  --green-bright: #a0ffad;
+  --green-dim: #2b9e49;
+  --text: #e7f4e9;
+  --muted: #91a799;
+  --line: rgba(112, 255, 139, 0.22);
+  --mono: "Cascadia Mono", "Cascadia Code", "MS Gothic", "ＭＳ ゴシック", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  cursor: none !important;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--bg);
+}
+
+button {
+  font: inherit;
+  pointer-events: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--green-bright);
+  outline-offset: 4px;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
