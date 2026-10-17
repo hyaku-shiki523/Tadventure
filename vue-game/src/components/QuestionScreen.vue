@@ -50,6 +50,7 @@ const pacing = {
   resultMessageDelay: 2200,
   nextQuestionDelay: 4000,
   missionCompleteDelay: 1500,
+  bombSoundDelay: 2800,
   outroMessageCharacter: 55,
   interfaceIntro: 2500
 }
@@ -78,7 +79,6 @@ const activeAudioSources = new Set()
 const audioBuffers = new Map()
 const soundEffects = [
   '/undertale-ding.mp3',
-  '/undertale-bomb-explosion.mp3',
   '/undertale-damage-taken.mp3',
   '/カーソル移動5.mp3'
 ]
@@ -215,6 +215,20 @@ function playVoiceSound() {
   })
 }
 
+function playBombSound() {
+  const audio = new Audio('/undertale-bomb-explosion.mp3')
+  activeAudioPlayers.add(audio)
+  audio.addEventListener('ended', () => activeAudioPlayers.delete(audio), { once: true })
+  audio.addEventListener('error', () => {
+    activeAudioPlayers.delete(audio)
+    console.error('爆発音を読み込めませんでした。')
+  }, { once: true })
+  audio.play().catch((error) => {
+    activeAudioPlayers.delete(audio)
+    console.error('爆発音を再生できませんでした:', error)
+  })
+}
+
 function typeMessage(target, message, onComplete = () => {}, characterDelay = pacing.messageCharacter) {
   window.clearInterval(blueTypingTimer)
   const characters = Array.from(message)
@@ -328,20 +342,15 @@ function handleKeydown(event) {
 }
 
 function selectAnswer(side) {
-  const selectedDuringCountdown = countdownValue.value !== null
   pendingChoice.value = side
   selectionPending.value = true
+  bombTimer = window.setTimeout(playBombSound, pacing.bombSoundDelay)
   selectionTimer = window.setTimeout(() => {
     animationStarted.value = true
     countdownValue.value = null
     window.clearTimeout(countdownStartTimer)
     window.clearInterval(countdownTimer)
     playSound('/カーソル移動5.mp3', 'カーソル移動音')
-    if (selectedDuringCountdown) {
-      bombTimer = window.setTimeout(() => {
-        playSound('/undertale-bomb-explosion.mp3', '爆発音')
-      }, 1500)
-    }
     answer(side)
   }, pacing.choiceAnimation)
 }

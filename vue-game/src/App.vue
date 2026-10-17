@@ -93,7 +93,7 @@ function skipIntro() {
         'is-ending': screen === 'ending',
         'is-hidden': screen === 'post-ending'
       }"
-      :src="screen === 'ending' ? '/VIVANT2.mp4' : '/tunnel%20straight.mp4'"
+      :src="screen === 'ending' ? '/VIVANT3.mp4' : '/tunnel%20straight.mp4'"
       :muted="screen !== 'ending'"
       :loop="screen === 'question'"
       @ended="handleEndingVideoEnded"
