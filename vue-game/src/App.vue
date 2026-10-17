@@ -1,16 +1,19 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import vivantTheme from './assets/vivant-theme.mp3'
 import TitleScreen from './components/TitleScreen.vue'
 import IntroScreen from './components/IntroScreen.vue'
+import PostEndingScreen from './components/PostEndingScreen.vue'
 import QuestionScreen from './components/QuestionScreen.vue'
 
 const screen = ref('title')
 const backgroundVideo = ref(null)
 const themeAudio = ref(null)
+const bgmEnabled = ref(false)
 let themeStarted = false
 
-function startIntro() {
+function startIntro(playBgm) {
+  bgmEnabled.value = playBgm
   screen.value = 'intro'
 }
 
@@ -23,7 +26,7 @@ function handleFirstRightArrow(event) {
 }
 
 function playTheme() {
-  if (themeStarted) {
+  if (!bgmEnabled.value || themeStarted) {
     return
   }
 
@@ -43,6 +46,36 @@ function startGame() {
   })
 }
 
+function playEndingVideo() {
+  screen.value = 'ending'
+
+  nextTick(() => {
+    const video = backgroundVideo.value
+    if (!video) {
+      console.error('エンディング動画の再生要素が見つかりません。')
+      return
+    }
+
+    video.load()
+    video.play().catch((error) => {
+      console.error('エンディング動画を再生できませんでした:', error)
+    })
+  })
+}
+
+function stopTheme() {
+  themeAudio.value?.pause()
+  if (themeAudio.value) {
+    themeAudio.value.currentTime = 0
+  }
+}
+
+function handleEndingVideoEnded() {
+  if (screen.value === 'ending') {
+    screen.value = 'post-ending'
+  }
+}
+
 function skipIntro() {
   playTheme()
   startGame()
@@ -51,14 +84,19 @@ function skipIntro() {
 </script>
 
 <template>
-  <main>
+  <main :class="{ 'is-ending': screen === 'ending' || screen === 'post-ending' }">
     <video
       ref="backgroundVideo"
       class="background-video"
-      :class="{ 'is-playing': screen === 'question' }"
-      src="/tunnel%20straight.mp4"
-      muted
-      loop
+      :class="{
+        'is-playing': screen === 'question',
+        'is-ending': screen === 'ending',
+        'is-hidden': screen === 'post-ending'
+      }"
+      :src="screen === 'ending' ? '/VIVANT2.mp4' : '/tunnel%20straight.mp4'"
+      :muted="screen !== 'ending'"
+      :loop="screen === 'question'"
+      @ended="handleEndingVideoEnded"
       playsinline
       preload="auto"
       aria-hidden="true"
@@ -78,8 +116,14 @@ function skipIntro() {
         @skip="skipIntro"
       />
       <QuestionScreen
-        v-else
+        v-else-if="screen === 'question'"
         key="question"
+        @mission-complete="stopTheme"
+        @ending="playEndingVideo"
+      />
+      <PostEndingScreen
+        v-else-if="screen === 'post-ending'"
+        key="post-ending"
       />
     </Transition>
   </main>
@@ -103,6 +147,12 @@ main {
     #050907;
 }
 
+main.is-ending {
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+}
+
 .background-video {
   position: fixed;
   inset: 0;
@@ -120,6 +170,16 @@ main {
   opacity: 0.22;
 }
 
+.background-video.is-ending {
+  z-index: 0;
+  opacity: 1;
+  filter: none;
+}
+
+.background-video.is-hidden {
+  display: none;
+}
+
 main::before {
   position: fixed;
   inset: 0;
@@ -130,6 +190,10 @@ main::before {
   background-size: 48px 48px;
   content: '';
   pointer-events: none;
+}
+
+main.is-ending::before {
+  display: none;
 }
 
 .screen-enter-active,

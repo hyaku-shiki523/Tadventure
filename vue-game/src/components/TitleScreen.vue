@@ -3,12 +3,23 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 const emit = defineEmits(['start'])
 const started = ref(false)
+const bgmEnabled = ref(false)
+const bgmCheckbox = ref(null)
 
 function handleKeydown(event) {
-  if (event.key === 'Enter' && !started.value) {
+  if (started.value) {
+    return
+  }
+
+  if (event.code === 'Space' && event.target !== bgmCheckbox.value) {
+    event.preventDefault()
+    if (!event.repeat) {
+      bgmEnabled.value = !bgmEnabled.value
+    }
+  } else if (event.key === 'Enter') {
     event.preventDefault()
     started.value = true
-    emit('start')
+    emit('start', bgmEnabled.value)
   }
 }
 
@@ -19,6 +30,11 @@ onBeforeUnmount(() => window.removeEventListener('keydown', handleKeydown))
 <template>
   <section class="title-panel">
     <h1>トロッコ<span>アドベンチャー</span></h1>
+    <label class="bgm-toggle">
+      <input ref="bgmCheckbox" v-model="bgmEnabled" type="checkbox">
+      <span class="checkbox-mark" aria-hidden="true"></span>
+      <span>BGMあり</span>
+    </label>
     <div class="start-prompt">
       <span class="start-indicator">▶</span>
       <span>blue@walkerとの通信を開始</span>
@@ -87,6 +103,55 @@ h1 span {
   font-size: clamp(0.85rem, 2.6vw, 1.1rem);
   letter-spacing: 0.06em;
   animation: prompt-pulse 1.2s ease-in-out infinite alternate;
+}
+
+.bgm-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.bgm-toggle input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.checkbox-mark {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid var(--green-dim);
+  background: rgba(3, 9, 5, 0.9);
+}
+
+.bgm-toggle input:checked + .checkbox-mark {
+  border-color: var(--green);
+  background: rgba(112, 255, 139, 0.18);
+  box-shadow: 0 0 12px rgba(112, 255, 139, 0.22);
+}
+
+.bgm-toggle input:checked + .checkbox-mark::after {
+  width: 10px;
+  height: 6px;
+  border-bottom: 2px solid var(--green-bright);
+  border-left: 2px solid var(--green-bright);
+  content: '';
+  transform: translateY(-2px) rotate(-45deg);
+}
+
+.bgm-toggle input:focus-visible + .checkbox-mark {
+  outline: 2px solid var(--green-bright);
+  outline-offset: 3px;
 }
 
 .start-indicator {

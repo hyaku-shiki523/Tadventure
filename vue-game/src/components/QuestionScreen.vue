@@ -29,8 +29,18 @@ const resultVisible = ref(false)
 const messagesVisible = ref(false)
 const countdownValue = ref(null)
 const blueMessage = ref('')
+const outroMessage = ref('')
+const missionCompleteVisible = ref(false)
+const outroVisible = ref(false)
 const enemyMessage = ref('リバイバル社の幹部が標的を確認。')
 const result = ref(null)
+const correctAnswerCount = ref(0)
+const outroMessages = [
+  '別班員としての今回の任務が成功しました！',
+  'このまま何事もなく無事に帰ってきてください。',
+  '今度お会いするときは黒須さんも連れてきてくださいね...',
+  'それではシミュレーションを終了します。'
+]
 const pacing = {
   countdownLead: 2500,
   countdownStep: 1500,
@@ -39,6 +49,8 @@ const pacing = {
   resultReveal: 2200,
   resultMessageDelay: 2200,
   nextQuestionDelay: 4000,
+  missionCompleteDelay: 1500,
+  outroMessageCharacter: 55,
   interfaceIntro: 2500
 }
 const currentQuestion = computed(() => questions[questionIndex.value])
@@ -52,7 +64,6 @@ const movingClass = computed(() => {
 
 let introTimer
 let blueTypingTimer
-let enemyTypingTimer
 let advanceTimer
 let resultTimer
 let messageDelayTimer
@@ -60,6 +71,8 @@ let selectionTimer
 let bombTimer
 let countdownStartTimer
 let countdownTimer
+let missionCompleteAudio
+let missionCompleteFinished = false
 const activeAudioPlayers = new Set()
 const activeAudioSources = new Set()
 const audioBuffers = new Map()
@@ -70,6 +83,52 @@ const soundEffects = [
   '/カーソル移動5.mp3'
 ]
 let audioContext
+const emit = defineEmits(['ending', 'mission-complete'])
+
+function showOutroMessage(index = 0) {
+  outroVisible.value = true
+  typeMessage(outroMessage, outroMessages[index], () => {
+    advanceTimer = window.setTimeout(() => {
+      if (index === outroMessages.length - 1) {
+        emit('ending')
+      } else {
+        showOutroMessage(index + 1)
+      }
+    }, 1500)
+  }, pacing.outroMessageCharacter)
+}
+
+function showMissionComplete() {
+  gameFinished.value = true
+  pendingChoice.value = null
+  missionCompleteVisible.value = true
+  messagesVisible.value = false
+  blueMessage.value = `全5問終了。正解${correctAnswerCount.value}問、誤答${wrongAnswerCount.value}問。`
+  enemyMessage.value = '標的を見失った。作戦を中止する。'
+  missionCompleteFinished = false
+  emit('mission-complete')
+  missionCompleteAudio = new Audio('/FF.mp3')
+  activeAudioPlayers.add(missionCompleteAudio)
+  const finishMissionComplete = () => {
+    if (missionCompleteFinished) {
+      return
+    }
+
+    missionCompleteFinished = true
+    activeAudioPlayers.delete(missionCompleteAudio)
+    missionCompleteVisible.value = false
+    showOutroMessage()
+  }
+  missionCompleteAudio.addEventListener('ended', finishMissionComplete, { once: true })
+  missionCompleteAudio.addEventListener('error', () => {
+    console.error('MISSION COMPLETE音源を読み込めませんでした。')
+    finishMissionComplete()
+  }, { once: true })
+  missionCompleteAudio.play().catch((error) => {
+    console.error('MISSION COMPLETE音源を再生できませんでした:', error)
+    finishMissionComplete()
+  })
+}
 
 function startCountdown() {
   window.clearTimeout(countdownStartTimer)
@@ -156,30 +215,24 @@ function playVoiceSound() {
   })
 }
 
-function typeMessage(target, message, timerKey, onComplete = () => {}) {
-  window.clearInterval(timerKey === 'blue' ? blueTypingTimer : enemyTypingTimer)
+function typeMessage(target, message, onComplete = () => {}, characterDelay = pacing.messageCharacter) {
+  window.clearInterval(blueTypingTimer)
   const characters = Array.from(message)
   let index = 0
   target.value = ''
 
   const timer = window.setInterval(() => {
     target.value += characters[index]
-    if (timerKey === 'blue') {
-      playVoiceSound()
-    }
+    playVoiceSound()
     index += 1
 
     if (index >= characters.length) {
       window.clearInterval(timer)
       onComplete()
     }
-  }, pacing.messageCharacter)
+  }, characterDelay)
 
-  if (timerKey === 'blue') {
-    blueTypingTimer = timer
-  } else {
-    enemyTypingTimer = timer
-  }
+  blueTypingTimer = timer
 }
 
 function answer(side) {
@@ -192,7 +245,9 @@ function answer(side) {
   messagesVisible.value = false
   const choice = side === 'left' ? currentQuestion.value.left : currentQuestion.value.right
   const correct = side === currentQuestion.value.answer
-  if (!correct) {
+  if (correct) {
+    correctAnswerCount.value += 1
+  } else {
     wrongAnswerCount.value += 1
   }
   const damageByMiss = [50, 20, 15, 10, 4]
@@ -214,28 +269,22 @@ function answer(side) {
       messagesVisible.value = true
 
       if (correct) {
+        enemyMessage.value = 'くっ、弾丸をかわしたか。次は外さん。'
         typeMessage(
           blueMessage,
           `${choice}を選択。判断は正確だ。弾丸を回避した。`,
-          'blue',
           () => {
             advanceTimer = window.setTimeout(advance, pacing.nextQuestionDelay)
           }
         )
-        typeMessage(enemyMessage, 'くっ、弾丸をかわしたか。次は外さん。', 'enemy')
       } else {
+        enemyMessage.value = `命中。HPを${actualDamage}削った。残りHP ${nextHp}。`
         typeMessage(
           blueMessage,
           `${choice}を選択。被弾した！HPが${actualDamage}減少。`,
-          'blue',
           () => {
             advanceTimer = window.setTimeout(advance, pacing.nextQuestionDelay)
           }
-        )
-        typeMessage(
-          enemyMessage,
-          `命中。HPを${actualDamage}削った。残りHP ${nextHp}。`,
-          'enemy'
         )
       }
     }, pacing.resultMessageDelay)
@@ -244,16 +293,7 @@ function answer(side) {
 
 function advance() {
   if (questionIndex.value === questions.length - 1) {
-    gameFinished.value = true
-    pendingChoice.value = null
-    typeMessage(
-      blueMessage,
-      hp.value === 1
-        ? '全問終了。HPは1。ぎりぎりで持ちこたえた。'
-        : `全問終了。HP ${hp.value}で生還した。`,
-      'blue'
-    )
-    typeMessage(enemyMessage, '標的を見失った。作戦を中止する。', 'enemy')
+    advanceTimer = window.setTimeout(showMissionComplete, pacing.missionCompleteDelay)
     return
   }
 
@@ -264,9 +304,9 @@ function advance() {
   resolved.value = false
   resultVisible.value = false
   result.value = null
+  enemyMessage.value = '次の弾丸を装填中。標的を追跡している。'
   startCountdown()
-  typeMessage(blueMessage, '次の問題だ。慎重に選べ。', 'blue')
-  typeMessage(enemyMessage, '次の弾丸を装填中。標的を追跡している。', 'enemy')
+  typeMessage(blueMessage, '次の問題だ。慎重に選べ。')
 }
 
 function handleKeydown(event) {
@@ -319,12 +359,13 @@ onMounted(() => {
     }
   }
 
-  typeMessage(blueMessage, 'シミュレーション起動に成功しました。', 'blue')
+  typeMessage(blueMessage, 'シミュレーション起動に成功しました。')
   introTimer = window.setTimeout(() => {
     interfaceVisible.value = true
     messagesVisible.value = true
+    enemyMessage.value = 'リバイバル社の幹部が標的を確認。'
     startCountdown()
-    typeMessage(blueMessage, 'リバイバル社の幹部を捕捉。気をつけて。', 'blue')
+    typeMessage(blueMessage, 'リバイバル社の幹部を捕捉。気をつけて。')
   }, pacing.interfaceIntro)
   window.addEventListener('keydown', handleKeydown)
 })
@@ -339,7 +380,10 @@ onBeforeUnmount(() => {
   window.clearTimeout(countdownStartTimer)
   window.clearInterval(countdownTimer)
   window.clearInterval(blueTypingTimer)
-  window.clearInterval(enemyTypingTimer)
+  missionCompleteAudio?.pause()
+  if (missionCompleteAudio) {
+    missionCompleteAudio.removeAttribute('src')
+  }
   for (const audio of activeAudioPlayers) {
     audio.pause()
     audio.removeAttribute('src')
@@ -366,7 +410,7 @@ onBeforeUnmount(() => {
       'tilt-right': animationStarted && pendingChoice === 'right'
     }"
   >
-    <header v-if="interfaceVisible" class="hp-panel">
+    <header v-if="interfaceVisible && !outroVisible" class="hp-panel">
       <div
         class="hp-track"
         role="meter"
@@ -379,7 +423,7 @@ onBeforeUnmount(() => {
       </div>
     </header>
 
-    <div v-if="interfaceVisible" class="game-layout">
+    <div v-if="interfaceVisible && !outroVisible" class="game-layout">
       <main class="quiz-area">
         <div class="question-heading">
           <span class="question-number">QUESTION {{ questionIndex + 1 }} / 5</span>
@@ -444,9 +488,18 @@ onBeforeUnmount(() => {
         <h2>blue@walker</h2>
         <p>{{ blueMessage }}<span class="typing-cursor">▋</span></p>
       </section>
+
+      <div v-if="missionCompleteVisible" class="mission-complete-overlay" role="status" aria-live="assertive">
+        <span class="mission-complete-title">MISSION<br>COMPLETE</span>
+      </div>
     </div>
 
-    <section v-else class="intro-panel" aria-live="polite">
+    <section v-else-if="outroVisible" class="outro-panel" aria-live="polite">
+      <h2>blue@walker</h2>
+      <p>{{ outroMessage }}<span class="typing-cursor">▋</span></p>
+    </section>
+
+    <section v-else-if="!interfaceVisible" class="intro-panel" aria-live="polite">
       <h2>blue@walker</h2>
       <p>{{ blueMessage }}<span class="typing-cursor">▋</span></p>
     </section>
@@ -500,6 +553,7 @@ onBeforeUnmount(() => {
 }
 
 .game-layout {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(230px, 290px);
   align-items: stretch;
@@ -606,6 +660,29 @@ onBeforeUnmount(() => {
   text-shadow: 0 0 32px currentColor;
 }
 
+.mission-complete-overlay {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.78);
+  color: var(--green-bright);
+  animation: result-pop 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  pointer-events: none;
+  text-shadow: 0 0 32px currentColor;
+}
+
+.mission-complete-title {
+  font-family: var(--mono);
+  font-size: clamp(2rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
 .answer-result.is-evaded {
   color: var(--green-bright);
 }
@@ -653,13 +730,13 @@ onBeforeUnmount(() => {
 .enemy-panel h2 {
   margin: 0;
   color: #ff7777;
-  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
 }
 
 .enemy-status {
   margin: 0;
   font-family: var(--mono);
-  font-size: 0.82rem;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
@@ -679,16 +756,18 @@ onBeforeUnmount(() => {
 }
 
 .blue-panel h2,
-.intro-panel h2 {
+.intro-panel h2,
+.outro-panel h2 {
   margin: 0 0 14px;
   color: var(--green-bright);
   font-family: var(--mono);
-  font-size: 0.9rem;
+  font-size: 1.15rem;
   letter-spacing: 0.08em;
 }
 
 .blue-panel p,
-.intro-panel p {
+.intro-panel p,
+.outro-panel p {
   display: grid;
   min-height: 80px;
   place-items: center;
@@ -713,7 +792,24 @@ onBeforeUnmount(() => {
   min-height: min(420px, 58vh);
 }
 
-.intro-panel p {
+.outro-panel {
+  display: flex;
+  align-self: center;
+  width: min(100%, 900px);
+  min-height: min(460px, 68vh);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(28px, 6vw, 64px);
+  border: 1px solid var(--green-dim);
+  background:
+    linear-gradient(110deg, rgba(112, 255, 139, 0.06), transparent 42%),
+    rgba(1, 5, 2, 0.97);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.48), inset 0 0 42px rgba(112, 255, 139, 0.035);
+}
+
+.intro-panel p,
+.outro-panel p {
   white-space: pre-wrap;
 }
 
@@ -758,17 +854,19 @@ onBeforeUnmount(() => {
   }
 
   .enemy-status {
-    font-size: 0.72rem;
+    font-size: 0.9rem;
   }
 
   .blue-panel,
-  .intro-panel {
+  .intro-panel,
+  .outro-panel {
     min-height: 120px;
     padding: 12px;
   }
 
   .blue-panel p,
-  .intro-panel p {
+  .intro-panel p,
+  .outro-panel p {
     min-height: 60px;
     font-size: 0.95rem;
   }

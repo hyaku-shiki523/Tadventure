@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     watch: {
-      ignored: ['**/public/**/*.mp3'],
+      ignored: ['**/public/**/*.mp3', '**/public/**/*.mp4'],
     },
   },
 })
